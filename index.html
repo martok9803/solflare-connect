@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Solflare Wallet</title>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.30.0/lib/index.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/wallet-adapter-base@0.6.0/lib/index.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/wallet-adapter-wallets@0.15.0/lib/index.iife.js"></script>
+</head>
+<body>
+    <h1>Connect to Solflare Wallet</h1>
+    <button id="connect-button">Connect Solflare Wallet</button>
+
+    <script>
+        (async () => {
+            // Reference the global objects from the included libraries
+            const { Connection, clusterApiUrl } = solanaWeb3;
+            const { SolflareWalletAdapter } = solanaWalletAdapterWallets;
+
+            // Set up the connection and the wallet
+            const network = clusterApiUrl('mainnet-beta');
+            const connection = new Connection(network);
+            const wallet = new SolflareWalletAdapter();
+
+            document.getElementById('connect-button').addEventListener('click', async () => {
+                try {
+                    await wallet.connect();
+                    alert(`Connected to wallet: ${wallet.publicKey.toString()}`);
+                } catch (err) {
+                    console.error('Failed to connect to the wallet:', err);
+                    alert('Failed to connect to the wallet');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

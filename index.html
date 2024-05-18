@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Solflare Wallet</title>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.30.0/lib/index.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/wallet-adapter-base@0.6.0/lib/index.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/wallet-adapter-wallets@0.15.0/lib/index.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/wallet-adapter-solflare@0.15.0/lib/index.iife.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        #connect-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Connect to Solflare Wallet</h1>
+        <button id="connect-button">Connect Solflare Wallet</button>
+        <p id="wallet-address"></p>
+    </div>
+
+    <script>
+        (async () => {
+            // Reference the global objects from the included libraries
+            const { SolflareWalletAdapter } = solanaWalletAdapterSolflare;
+            const { WalletAdapterNetwork } = solanaWalletAdapterBase;
+
+            // Initialize the Solflare wallet adapter
+            const network = WalletAdapterNetwork.Mainnet;
+            const wallet = new SolflareWalletAdapter({ network });
+
+            // Event listener for the connect button
+            document.getElementById('connect-button').addEventListener('click', async () => {
+                try {
+                    await wallet.connect();
+                    document.getElementById('wallet-address').innerText = `Connected to wallet: ${wallet.publicKey.toString()}`;
+                } catch (err) {
+                    console.error('Failed to connect to the wallet:', err);
+                    alert('Failed to connect to the wallet');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
